@@ -48,21 +48,16 @@ public class Treballador extends Thread {
 
     @Override
     public void run(){
-        while(edatActual <= edatFiTreball){
-            int mes = 1;
-
-            while(mes <= 12){
-                cobra();
-                pagaImpostos();
-                try {
-                    Thread.sleep(10);
-                } catch (Exception e) {
-                    System.out.println("Error al fil");
+        try{
+            for (edatActual = edatIniciTreball; edatActual < edatFiTreball; edatActual++) {
+                Thread.sleep(10);
+                for (int mes = 1; mes <= 12; mes++) {
+                    this.cobra();
+                    this.pagaImpostos();
                 }
-
-                mes++;
             }
-            edatActual++;
+        }catch(Exception e){
+            e.printStackTrace();
         }
     }
 }
