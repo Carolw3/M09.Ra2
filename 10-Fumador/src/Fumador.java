@@ -11,9 +11,9 @@ public class Fumador extends Thread {
 
     Random ran = new Random();
 
-    public Fumador (int id){
+    public Fumador (int id, Estanc estanc){
         this.id = id;
-        estanc = new Estanc();
+        this.estanc = estanc;
     }
     public void fuma(){
         if(tabac!=null && paper!=null && llumi!=null){
@@ -22,34 +22,52 @@ public class Fumador extends Thread {
             paper = null;
             llumi = null;
             try {
+                System.err.println("Fumador " + id + " fumant");
                 Thread.sleep(500 + ran.nextInt(501));
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
+            System.err.println("El fumador " + id + " ha fumat " + fumades + " vegades");
         }
     }
 
     public void compraTabac(){
-        tabac = estanc.venTabac();
+        if (this.tabac != null){
+            return;
+        }
+        this.tabac = estanc.venTabac();
+        System.err.println("Fumador " + id + " comprant tabac");
+        
     }
 
     public void compraPaper(){
-        paper = estanc.venPaper();
+        if (this.paper == null){
+            this.paper = estanc.venPaper();
+            System.err.println("Fumador " + id + " comprant paper");
+        }
     }
 
     public void compraLlumi(){
-        llumi = estanc.venLlumi();
+        if (this.llumi == null){
+            this.llumi = estanc.venLlumi();
+            System.err.println("Fumador " + id + " comprant llumi");
+        }
     }
 
     @Override
     public void run(){
-        while(fumades <= 3){
+        while(fumades < 3){
             compraPaper();
             compraTabac();
             compraLlumi();
 
             fuma();
+            try {
+                Thread.sleep(100);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            
         }
     }
 }

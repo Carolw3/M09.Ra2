@@ -37,49 +37,66 @@ public class Estanc extends Thread{
         }
     }
 
-    public void addTabac(Tabac t){
+    public synchronized void addTabac(Tabac t){
         System.err.println("Afegint tabac");
         tabacs.add(t);
+        notifyAll();
     }
 
-    public void addLlumi(Llumi l){
+    public synchronized  void addLlumi(Llumi l){
         System.err.println("Afegint llumi");
         llumins.add(l);
+        notifyAll();
     }
 
-    public void addPaper(Paper p){
+    public synchronized void addPaper(Paper p){
         System.err.println("Afegint paper");
         papers.add(p);
+        notifyAll();
     }
 
-    public Tabac venTabac(){
+    public synchronized Tabac venTabac(){
         if(!tabacs.isEmpty()){
             Tabac t = tabacs.get(0);
             tabacs.remove(0);
+            
             return t;
+        }
+        try {
+            wait();
+        } catch (Exception e) {
         }
         return null;
     }
 
-    public Llumi venLlumi(){
+    public synchronized Llumi venLlumi(){
         if(!llumins.isEmpty()){
             Llumi l = llumins.get(0);
             llumins.remove(0);
             return l;
         }
+        try {
+            wait();
+        } catch (Exception e) {
+        }
         return null;
     }
 
-    public Paper venPaper(){
-        if(!tabacs.isEmpty()){
+    public synchronized Paper venPaper(){
+        if(!papers.isEmpty()){
             Paper p = papers.get(0);
             papers.remove(0);
             return p;
+        }
+        try {
+            wait();
+        } catch (Exception e) {
         }
         return null;
     }
 
     public void tancarEstanc(){
+        System.err.println("Estanc tancat");
         obert = false;
     }
 
