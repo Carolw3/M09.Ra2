@@ -1,30 +1,30 @@
+public class Dona extends Thread{
+    String nom;
+    BanyUnisex bany;
 
-
-public class Home extends Thread{
-    public String nom;
-    public BanyUnisex bany;
-    
-    public Home(String n, BanyUnisex b){
+    public Dona(String n, BanyUnisex b){
         nom = n;
         bany = b;
     }
 
     public void run(){
         System.err.println(nom + " vol usar el bany");
-        bany.entraHome();
+        bany.entraDona();
         utilitzaLavabo();
-        bany.surtHome();
+        bany.surtDona();
         System.err.println(nom + " ha acabat d'usar el bany");
     }
 
     public void utilitzaLavabo(){
         
         try {
-            int temps = 1000 + (int)(Math.random()*1000);
+            int temps = 2000 + (int)(Math.random()*1000);
             Thread.sleep(temps);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
+
+
 }
